@@ -1,0 +1,13 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureSignalRConnectionString": "",
+    "FUNCTIONS_WORKER_RUNTIME": "http",
+    "AzureWebJobsStorage": ""
+  },
+  "Host": {
+    "LocalHttpPort": 7071,
+    "CORS": "http://localhost:8000,https://azure-samples.github.io",
+    "CORSCredentials": true
+  }
+}
