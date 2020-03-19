@@ -1,12 +1,19 @@
 <?php
-    function run(&$inputs, &$outputs, &$log) {
-        $log->information('Message received');
+    function run(
+        Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface $input, 
+        Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface $output, 
+        Psr\Log\LoggerInterface $log
+    ): int {
+        $log->info('Message received');
         
-        $outputs['signalRMessage'] = [
-            'target' => 'newMessage',
-            'arguments' => [
-                json_decode($inputs['req']['Body'])
+        $output->set('output', [
+            'signalRMessage' => [
+                'target' => 'newMessage',
+                'arguments' => [
+                    json_decode($input->get('request')->getContent())
+                ]
             ]
-        ];
+        ]);
+        return 0;
     }
 ?>
