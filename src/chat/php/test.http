@@ -1,4 +1,4 @@
-POST http://localhost:7071/api/HttpTrigger
+POST http://localhost:7071/api/messages
 Content-type: application/json
 
 {

@@ -1,4 +1,4 @@
-<?
+<?php
     function run(&$inputs, &$outputs, &$log) {
         $log->information('Message received');
         

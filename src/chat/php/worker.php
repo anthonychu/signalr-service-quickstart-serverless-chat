@@ -1,4 +1,4 @@
-<?
+<?php
     class Logger {
         public $messages = [];
         function information($msg) {
