@@ -1,0 +1,7 @@
+{
+    "require": {
+        "symfony/http-foundation": "^5.0",
+        "monolog/monolog": "^2.0",
+        "symfony/dependency-injection": "^5.0"
+    }
+}

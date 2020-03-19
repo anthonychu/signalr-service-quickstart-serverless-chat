@@ -1,30 +1,26 @@
 <?php
-    class Logger {
-        public $messages = [];
-        function information($msg) {
-            array_push($this->messages, $msg);
-        }
-    }
+    require __DIR__ . '/vendor/autoload.php';    
+    use Symfony\Component\HttpFoundation\{Request, JsonResponse};
+    use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+    use Monolog\{Logger, Handler};
 
-    $requestUri = $_SERVER['REQUEST_URI'];
-    $requestBody = file_get_contents('php://input');
-    $request = json_decode($requestBody, true);
+    $logger = new Logger(__FILE__);
+    $handler = new Handler\TestHandler();
+    $logger->pushHandler($handler);
+    
+    $request = Request::createFromGlobals();
+    require __DIR__ . $request->getPathInfo() . '/index.php';
 
-    header("Content-type: application/json");
+    $input = new ParameterBag([
+        'request' => $request
+    ]);
+    $output = new ParameterBag();
+    $returnValue = run($input, $output, $logger);
 
-    require __DIR__ . $requestUri . '/index.php';
-
-    $inputs = $request['Data'];
-    $outputs = [ '_none_' => null ];
-    $logger = new Logger();
-    $returnValue = run($inputs, $outputs, $logger);
-
-    $response = [
-        'Outputs' => $outputs,
+    $response = new JsonResponse([
+        'Outputs' => $output->get('output'),
         'ReturnValue' => $returnValue,
-        'Logs' => $logger->messages
-    ];
-
-    header("Content-type: application/json");
-    echo(json_encode($response));
+        'Logs' => $handler->getRecords()
+    ]);
+    $response->send();
 ?>
